@@ -1,0 +1,70 @@
+// don't know if this will be a thing
+use * from CompileTime;
+
+// also something like this could be fun
+use { claim, sizeof, free } from CompileTime;
+
+// aliasing like this
+use { claim, sizeof } as {c, so} from CompileTime;
+
+use {Iterable, SupportsInt} from Typing;
+
+class List<T> : Iterable {
+    fn __new() {
+        @elems: Mutable<Mem> = claim(0);
+        @size: Mutable<i64> = 0;
+    }
+
+    fn append(elem: T) bool {
+        mem: Mutable<Optional<Mem>> = claim(sizeof(@size + 1));
+        return false if (not mem.valid?());
+        if (size > 0) {
+            for i := 0; i < @size; ++i do {
+                mem[i] = @elems[i];
+            }
+        }
+        free(@elems);
+        @elems = mem.shelling();
+        @elems[@size++, T] = elem;
+    }
+
+    /*
+    * this is special function which makes setting the value possible by []
+    * works by returning adding elements, the same way how 
+    * (valid==(pointer = malloc(10)))
+    * this fragment could work in c 
+    * or maybe this should return bool, about how operation happen, idk yet
+    */
+    fn __set(n: SupportsInt, elem: T) T {
+        new_n := i64(n);
+        if (not @has_capacity(new_n)) {
+            /*
+            * Panic function create and print new string, then it's clearing 
+            * the stack and remove function selector (function jumping shit). 
+            * This way program is totally stopped in case of runtime error.
+            */
+            panic("list don't have enough indexes, wanted to set index \(n), had \(@size)");
+        }
+        @elems[new_n, T] = elem;
+    }
+
+    abs remove(n: SupportsInt) bool;
+
+    /*
+    * special functions have double underscores as first, 
+    * private ones have only one
+    */
+    fn _has_capacity(n: i64) bool {
+        return (n >= @size);
+    }
+
+    // this is special funcion which makes iteration possile by []
+    fn __get(n: SupportsInt) T {
+        new_n := i64(n);
+        if (not @has_capacity(new_n)) {
+            panic("list don't have enough indexes, demanded \(n), had \(@size)");
+        }
+        // above example is auto type-casting give as iterator argument
+        return @elems[n, T];
+    }
+}
