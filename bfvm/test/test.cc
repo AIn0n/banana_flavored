@@ -1,14 +1,16 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
+#include "bf_vm.hpp"
 
 
-unsigned int Factorial( unsigned int number ) {
-    return number <= 1 ? number : Factorial(number-1)*number;
-}
+TEST_CASE( "Executing plus sign N times returns N", "[base]" )
+{
+    Bf_vm vm = Bf_vm();
+    auto curr = GENERATE(1, 8, 42, 90);
+    std::string cmds = "";
+    for (auto i = 0; i < curr; ++i)
+        cmds += "+";
 
-TEST_CASE( "Factorials are computed", "[factorial]" ) {
-    REQUIRE( Factorial(1) == 1 );
-    REQUIRE( Factorial(2) == 2 );
-    REQUIRE( Factorial(3) == 6 );
-    REQUIRE( Factorial(10) == 3628800 );
+    vm.execute(cmds);
+    REQUIRE(vm.mem[0] == curr);
 }
