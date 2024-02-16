@@ -1,0 +1,38 @@
+
+class Iterator<T> {
+    fn has_next() -> Bool {
+        // definition...
+    }
+}
+
+
+function_name: auto = (arg: Type) -> Return_type {
+    // definition...
+}
+
+fn function_name(arg: Type) -> Return_type {
+    // definition...
+}
+
+
+// new sugar syntax version
+
+
+class Iterator<T> {
+    has_next() -> Bool {
+        // definition...
+    }
+}
+
+function_name(arg: Type) -> Return_type {
+    // definition...
+}
+
+\\  compiled to ...
+\\  |
+\\  v
+
+
+function_name: auto = (arg: Type) -> Return_type {
+    // definition...
+}
