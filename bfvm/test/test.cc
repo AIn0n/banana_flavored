@@ -60,10 +60,11 @@ TEST_CASE("dot operator print out char", "[base]")
 
 TEST_CASE("adding, then moving pointer, pointer land on empty cell", "[base]")
 {
-    auto vm = Bf_vm();
+    auto io = Bf_io_string_buff();
+    Bf_vm vm(io);
     auto offset = GENERATE(10, 20, 30, 40);
     auto pluses = GENERATE(1, 2, 8, 91);
-    vm.execute(std::string(offset, '>') + std::string(pluses, '+'));
+    vm.execute(std::string(pluses, '+') + std::string(offset, '>') + ".");
 
-    REQUIRE(vm.mem[vm.ptr] == 0);
+    REQUIRE(io.out[0] == 0);
 }
