@@ -56,3 +56,16 @@ TEST_CASE("adding, then moving pointer, pointer land on empty cell", "[base]")
 
     REQUIRE(io.out[0] == 0);
 }
+
+TEST_CASE("adding the moving pointer, and coming back to same cell, returns added number", "[base]")
+{
+    auto vm = Bf_vm();
+    auto offset = GENERATE(10, 20, 30, 40), pluses = GENERATE(8, 12, 35, 59);
+    vm.execute(
+        std::string(pluses, '+') +
+        std::string(offset, '>') +
+        std::string(offset, '<')
+    );
+
+    REQUIRE(vm.mem[vm.ptr] == pluses);
+}
