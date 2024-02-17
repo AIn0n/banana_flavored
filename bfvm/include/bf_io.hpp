@@ -10,7 +10,7 @@ public:
 struct Bf_io_string_buff : Bf_io {
 
     const std::u32string in;
-    std::u32string out;
+    std::u32string out = U"";
     size_t in_ptr = 0;
 
     Bf_io_string_buff(const std::u32string &input = U"") : in(input) {}
