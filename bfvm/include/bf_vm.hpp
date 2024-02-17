@@ -34,6 +34,8 @@ struct Bf_vm {
             case '<':
                 ptr--;
                 break;
+            case ',':
+                mem[ptr] = io.get_input();
             }
         }
     }

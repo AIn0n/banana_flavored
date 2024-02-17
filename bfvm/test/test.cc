@@ -69,3 +69,12 @@ TEST_CASE("adding the moving pointer, and coming back to same cell, returns adde
 
     REQUIRE(vm.mem[vm.ptr] == pluses);
 }
+
+TEST_CASE("period get input and insert into the cell", "[base]")
+{
+    auto io = Bf_io_string_buff(U"A");
+    Bf_vm vm(io);
+    vm.execute(",");
+    const uint32_t expected = static_cast<uint32_t>(U'A');
+    REQUIRE(vm.mem[0] == expected);
+}
