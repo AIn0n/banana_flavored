@@ -2,6 +2,7 @@
 #define BF_VM_HPP
 
 #include <string>
+#include <deque>
 #include "bf_io.hpp"
 
 static auto default_io = Bf_io_string_buff();
@@ -16,8 +17,8 @@ struct Bf_vm {
 
     void execute(const std::string &cmds)
     {
-        for (const auto &it : cmds) {
-            switch (it)
+        for (uint64_t i = 0; i < cmds.size(); ++i) {
+            switch (cmds[i])
             {
             case '+':
                 ++mem[ptr];
@@ -36,9 +37,21 @@ struct Bf_vm {
                 break;
             case ',':
                 mem[ptr] = io.get_input();
+            case '[':
+                if (!mem[ptr]) {
+                    while(cmds[i++] != ']') {}
+                    break;
+                }
+                openings.push_back(i);
+                break;
+            case ']':
+                i = openings.back() - 1;
+                openings.pop_back();
             }
         }
     }
+private:
+    std::deque<uint64_t> openings;
 };
 
 #endif
