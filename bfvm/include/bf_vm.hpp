@@ -59,6 +59,7 @@ struct Bf_vm {
                 break;
             case ',':
                 mem[ptr] = io.get_input();
+                break;
             case '[':
                 if (!mem[ptr])
                     i = bracket_lookup[i];
