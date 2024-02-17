@@ -47,12 +47,6 @@ TEST_CASE("subtracing from zero returns wrapped int", "[base]")
     REQUIRE(vm.mem[0] == expected);
 }
 
-std::string to_utf8(const std::u32string &s)
-{
-    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
-    return conv.to_bytes(s);
-}
-
 TEST_CASE("dot operator print out char", "[base]")
 {
     auto io = Bf_io_string_buff();
@@ -62,4 +56,14 @@ TEST_CASE("dot operator print out char", "[base]")
     vm.execute(std::string(pluses, '+') + ".");
 
     REQUIRE(io.out[0] == X);
+}
+
+TEST_CASE("adding, then moving pointer, pointer land on empty cell", "[base]")
+{
+    auto vm = Bf_vm();
+    auto offset = GENERATE(10, 20, 30, 40);
+    auto pluses = GENERATE(1, 2, 8, 91);
+    vm.execute(std::string(offset, '>') + std::string(pluses, '+'));
+
+    REQUIRE(vm.mem[vm.ptr] == 0);
 }
