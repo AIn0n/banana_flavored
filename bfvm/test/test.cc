@@ -78,3 +78,21 @@ TEST_CASE("period get input and insert into the cell", "[base]")
     const uint32_t expected = static_cast<uint32_t>(U'A');
     REQUIRE(vm.mem[0] == expected);
 }
+
+TEST_CASE("a few periods inserts a few characters", "[base]")
+{
+    std::u32string s = U"ABC";
+    auto io = Bf_io_string_buff(s);
+    Bf_vm vm(io);
+    vm.execute(",>,>,");
+    for (auto i = 0; i < s.length(); ++i) {
+        REQUIRE(s[i] == vm.mem[i]);
+    }
+}
+
+TEST_CASE("code in brackets will be not executed if cell is empty", "[base]")
+{
+    auto vm = Bf_vm();
+    vm.execute("[++++]");
+    REQUIRE(vm.mem[0] == 0);
+}
