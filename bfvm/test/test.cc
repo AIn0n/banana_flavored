@@ -58,7 +58,8 @@ TEST_CASE("dot operator print out char", "[base]")
     auto io = Bf_io_string_buff();
     Bf_vm vm(io);
     char32_t X = GENERATE(U'A', U'B', U'c', U'f');
-    vm.execute(std::string(static_cast<uint32_t>(X), '+') + ".");
+    const uint32_t pluses = static_cast<uint32_t>(X);
+    vm.execute(std::string(pluses, '+') + ".");
 
     REQUIRE(io.out[0] == X);
 }
