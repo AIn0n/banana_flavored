@@ -33,3 +33,12 @@ TEST_CASE("Executing plus sign X times, then minus sign Y times, leave X-Y", "[b
     vm.execute(std::string(X, '+') + std::string(Y,'-'));
     REQUIRE(vm.mem[0] == expected);
 }
+
+TEST_CASE("subtracing from zero returns wrapped int", "[base]")
+{
+    Bf_vm vm = Bf_vm();
+    auto X = GENERATE(39, 59, 127);
+    uint32_t expected = UINT32_MAX + 1 - X;
+    vm.execute(std::string(X, '-'));
+    REQUIRE(vm.mem[0] == expected);
+}
