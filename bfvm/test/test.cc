@@ -42,3 +42,10 @@ TEST_CASE("subtracing from zero returns wrapped int", "[base]")
     vm.execute(std::string(X, '-'));
     REQUIRE(vm.mem[0] == expected);
 }
+
+TEST_CASE("dot operator print out char", "[base]")
+{
+    auto io = Bf_io_string_buff();
+    Bf_vm Bf_vm(io);
+    
+}
