@@ -12,6 +12,8 @@ struct Bf_vm {
         for (const auto &it : cmds) {
             if (it == '+')
                 ++mem[ptr];
+            if (it == '-')
+                --mem[ptr];
         }
     }
 };
