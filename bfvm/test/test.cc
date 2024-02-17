@@ -96,3 +96,15 @@ TEST_CASE("code in brackets will be not executed if cell is empty", "[base]")
     vm.execute("[++++]");
     REQUIRE(vm.mem[0] == 0);
 }
+
+TEST_CASE("multiple brackets for moving the pointer by X val", "[base]")
+{
+    auto vm = Bf_vm();
+    auto X = GENERATE(3, 7, 9);
+    vm.execute(std::string(X, '+') +
+"[\
+    [->+<] ## move iterator one to the right\
+    >- ## move pointer and decrement iterator\
+] # end loop");
+    REQUIRE(vm.ptr == X);
+}

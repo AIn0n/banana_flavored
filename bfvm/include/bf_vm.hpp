@@ -4,6 +4,7 @@
 #include <string>
 #include <deque>
 #include "bf_io.hpp"
+#include <iostream>
 
 static auto default_io = Bf_io_string_buff();
 
@@ -18,6 +19,7 @@ struct Bf_vm {
     void execute(const std::string &cmds)
     {
         for (uint64_t i = 0; i < cmds.size(); ++i) {
+            std::cout << "executing: " << cmds[i] << " iter: " << i << '\n';
             switch (cmds[i])
             {
             case '+':
