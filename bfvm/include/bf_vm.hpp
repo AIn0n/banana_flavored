@@ -17,16 +17,24 @@ struct Bf_vm {
     void execute(const std::string &cmds)
     {
         for (const auto &it : cmds) {
-            if (it == '+')
+            switch (it)
+            {
+            case '+':
                 ++mem[ptr];
-            if (it == '-')
+                break;
+            case '-':
                 --mem[ptr];
-            if (it == '.')
+                break;
+            case '.':
                 io.append_output(mem[ptr]);
-            if (it == '>')
+                break;
+            case '>':
                 ptr++;
-            if (it == '<')
+                break;
+            case '<':
                 ptr--;
+                break;
+            }
         }
     }
 };
