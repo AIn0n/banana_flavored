@@ -25,6 +25,8 @@ struct Bf_vm {
                 io.append_output(mem[ptr]);
             if (it == '>')
                 ptr++;
+            if (it == '<')
+                ptr--;
         }
     }
 };
