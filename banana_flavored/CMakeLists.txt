@@ -21,6 +21,9 @@ target_link_libraries(exec PRIVATE banana)
 set(CATCH2_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/third_party/catch2)
 include_directories(${CATCH2_INCLUDE_DIR})
 
+add_executable(test_tokenizer test/test_tokenizer.cc)
+target_link_libraries(test_tokenizer PRIVATE banana)
+
 # Test executable target
 add_executable(test_vm test/test_vm.cc)
 target_link_libraries(test_vm PRIVATE banana)
