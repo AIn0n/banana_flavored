@@ -7,21 +7,21 @@
 TEST_CASE("tokenize expression", "[base]")
 {
     auto tokenizer = Tokenizer("a : cell = 1 + 2;");
-    std::vector<Token> res;
-    std::vector<Token> expected = {
-        Token::IDENTIFIER,
-        Token::COLON,
-        Token::EQUAL, 
-        Token::NUMBER,
-        Token::PLUS,
-        Token::NUMBER
+    std::vector<Token_type> res;
+    std::vector<Token_type> expected = {
+        Token_type::IDENTIFIER,
+        Token_type::COLON,
+        Token_type::EQUAL, 
+        Token_type::NUMBER,
+        Token_type::PLUS,
+        Token_type::NUMBER
     };
 
-    Token token;
+    Token_type Token_type;
     do {
-        token = tokenizer.next();
-        res.push_back(token);
-    } while (token != Token::END_OF_FILE);
+        Token_type = tokenizer.next().type;
+        res.push_back(Token_type);
+    } while (Token_type != Token_type::END_OF_FILE);
 
 
     REQUIRE(res == expected);
