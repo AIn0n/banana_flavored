@@ -3,6 +3,8 @@
 #include "bf_vm.hpp"
 
 #include <string>
+#include <locale>
+#include <codecvt>
 
 TEST_CASE("Executing plus sign N times returns N", "[base]")
 {
@@ -107,4 +109,17 @@ TEST_CASE("multiple brackets for moving the pointer by X val", "[base]")
     >- ## move pointer and decrement iterator\
 ] # end loop");
     REQUIRE(vm.ptr == X);
+}
+
+std::string to_utf8(const std::u32string &s)
+{
+    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
+    return conv.to_bytes(s);
+}
+
+TEST_CASE("Hello world code from wiki should print Hello world", "[base]")
+{
+    auto io = Bf_io_string_buff();
+    Bf_vm(io).execute("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
+    REQUIRE(io.out == U"Hello World!\n");
 }
