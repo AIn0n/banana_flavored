@@ -11,18 +11,22 @@ TEST_CASE("tokenize expression", "[base]")
     std::vector<Token_type> expected = {
         Token_type::IDENTIFIER,
         Token_type::COLON,
-        Token_type::TYPE_IDENTIFIER,
+        Token_type::IDENTIFIER,
         Token_type::EQUAL, 
         Token_type::NUMBER,
         Token_type::PLUS,
-        Token_type::NUMBER
+        Token_type::NUMBER,
+        Token_type::SEMICOLON,
+        Token_type::END_OF_FILE
     };
 
-    Token_type Token_type;
+    Token_type type;
     do {
-        Token_type = tokenizer.next().type;
-        res.push_back(Token_type);
-    } while (Token_type != Token_type::END_OF_FILE);
+        Token token = tokenizer.next();
+        type = token.type;
+        res.push_back(type);
+        //std::cout << (int) type << '\t' << token.lexeme << '\n';
+    } while (type != Token_type::END_OF_FILE);
 
 
     REQUIRE(res == expected);
