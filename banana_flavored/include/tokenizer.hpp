@@ -3,6 +3,7 @@
 enum class Token_type {
     END_OF_FILE,
     IDENTIFIER,
+    TYPE_IDENTIFIER,
     COLON,
     EQUAL, 
     NUMBER,
@@ -67,10 +68,6 @@ struct Tokenizer {
             case '/':
                 if (peek_next() == '/') {
                     while (!is_at_end() && peek() != '\n')
-                        advance();
-                }
-                if (peek_next() == '*') {
-                    while(!is_at_end() && peek() != '*' && peek_next() != '/')
                         advance();
                 }
             default:

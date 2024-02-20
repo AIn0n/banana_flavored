@@ -6,11 +6,12 @@
 
 TEST_CASE("tokenize expression", "[base]")
 {
-    auto tokenizer = Tokenizer("a : cell = 1 + 2;");
+    auto tokenizer = Tokenizer("a :cell= 1 + 2;");
     std::vector<Token_type> res;
     std::vector<Token_type> expected = {
         Token_type::IDENTIFIER,
         Token_type::COLON,
+        Token_type::TYPE_IDENTIFIER,
         Token_type::EQUAL, 
         Token_type::NUMBER,
         Token_type::PLUS,
