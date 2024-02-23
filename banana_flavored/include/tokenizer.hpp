@@ -2,7 +2,14 @@
 #include <cctype>
 #include <iostream>
 
-// IDEA: what about doing the same number in the 
+/* IDEA: what about doing the same number in the ASCII table?
+
+Will it be faster than doing that current, naive way?
+These numbers in current version don't have any kind of meaning,
+and the order is random, based on time where I worked on features.
+Maybe except the END_OF_FILE token which is 0, this will be tested pretty often
+so probably it is faster to check.
+*/
 enum class Token_type {
     END_OF_FILE = 0,
     IDENTIFIER  = 1,
