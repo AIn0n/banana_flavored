@@ -2,6 +2,7 @@
 #include <cctype>
 #include <iostream>
 
+// IDEA: what about doing the same number in the 
 enum class Token_type {
     END_OF_FILE = 0,
     IDENTIFIER  = 1,
@@ -125,10 +126,16 @@ struct Tokenizer {
         switch (c) {
         case '+':
             return make_token(Token_type::PLUS);
+        case '-':
+            return make_token(Token_type::MINUS);
         case ':':
             return make_token(Token_type::COLON);
         case ';':
             return make_token(Token_type::SEMICOLON);
+        case '(':
+            return make_token(Token_type::PAREN_LEFT);
+        case ')':
+            return make_token(Token_type::PAREN_RIGHT);
         case '=':
             return make_token(match('=') ? Token_type::BANG_EQUAL : Token_type::EQUAL);
         }

@@ -25,7 +25,6 @@ TEST_CASE("tokenize expression", "[base]")
         Token token = tokenizer.next();
         type = token.type;
         res.push_back(type);
-        //std::cout << (int) type << '\t' << token.lexeme << '\n';
     } while (type != Token_type::END_OF_FILE);
 
 
@@ -55,7 +54,6 @@ TEST_CASE("parsing the function with the expression inside", "[base]")
         Token token = tokenizer.next();
         type = token.type;
         res.push_back(type);
-        //std::cout << (int) type << '\t' << token.lexeme << '\n';
     } while (type != Token_type::END_OF_FILE);
 
     REQUIRE(res == expected);
