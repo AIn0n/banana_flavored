@@ -4,14 +4,17 @@
 
 enum class Token_type {
     END_OF_FILE = 0,
-    IDENTIFIER = 1,
-    COLON = 2,
-    EQUAL = 3, 
-    NUMBER = 4,
-    PLUS = 5,
-    SEMICOLON = 6,
-    BANG_EQUAL = 7,
-    ERROR = 8
+    IDENTIFIER  = 1,
+    COLON       = 2,
+    EQUAL       = 3, 
+    NUMBER      = 4,
+    PLUS        = 5,
+    SEMICOLON   = 6,
+    BANG_EQUAL  = 7,
+    ERROR       = 8,
+    PAREN_LEFT  = 9,
+    PAREN_RIGHT = 10,
+    MINUS       = 11
 };
 
 struct Token {
