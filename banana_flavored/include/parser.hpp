@@ -8,10 +8,16 @@ struct Parser {
 
     Parser(const std::string &c) : 
         tokenizer(Tokenizer(c)),
-        current(Token("", Token_type::END_OF_FILE, 0)),
-        previous(Token("", Token_type::END_OF_FILE, 0)) {}
+        current("", Token_type::END_OF_FILE, 0),
+        previous("",Token_type::END_OF_FILE, 0) {}
 
-    std::string parse(void) {
+    void
+    advance()
+    {
+        current = previous;
+    }
+
+    std::string compile(void) {
         return "";
     }
 };

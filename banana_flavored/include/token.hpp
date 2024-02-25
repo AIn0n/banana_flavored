@@ -24,9 +24,9 @@ enum class Token_type {
 };
 
 struct Token {
-    const Token_type type;
-    const std::string lexeme;
-    const int line;
+    Token_type type;
+    std::string lexeme;
+    int line;
 
     Token(const std::string str, const Token_type type_, const int line_) 
         : lexeme(str), type(type_), line(line_) {}

@@ -7,7 +7,7 @@
 TEST_CASE("code generated for expression returns expression value", "[base]")
 {
     auto io     = Bf_io_string_buff();
-    auto vm     = Bf_vm();
-    auto instr  = Parser("func(90 + 27 - 3);").parse();
+    auto instr  = Parser("func(90 + 27 - 3);").compile();
+    Bf_vm(io).execute(instr);
     REQUIRE(io.out == U"114");
 }
