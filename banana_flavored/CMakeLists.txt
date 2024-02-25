@@ -19,13 +19,13 @@ set_target_properties(banana PROPERTIES OUTPUT_NAME "bfvm")
 set(CATCH2_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/third_party/catch2)
 include_directories(${CATCH2_INCLUDE_DIR})
 
-add_executable(test_tokenizer test/test_tokenizer.cc)
-add_executable(test_parser test/test_parser.cc)
-add_executable(test_vm test/test_vm.cc)
+add_executable(tokenizer_tests_exec test/test_tokenizer.cc)
+add_executable(parser_tests_exec test/test_parser.cc)
+add_executable(vm_tests_exec test/test_vm.cc)
 
-target_link_libraries(test_tokenizer PRIVATE banana)
-target_link_libraries(test_parser PRIVATE banana)
-target_link_libraries(test_vm PRIVATE banana)
+target_link_libraries(tokenizer_tests_exec PRIVATE banana)
+target_link_libraries(parser_tests_exec PRIVATE banana)
+target_link_libraries(vm_tests_exec PRIVATE banana)
 
 # Enable testing
 enable_testing()
