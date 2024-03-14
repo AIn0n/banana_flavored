@@ -1,23 +1,44 @@
 #include <string>
+#include <functional>
+#include <unordered_map>
 #include "tokenizer.hpp"
+
+enum class Precedence {
+    BASE = 0, /* all */
+    TERM = 1, /* + - */
+    FACTOR = 2, /* * / */
+};
+
+
 
 struct Parser {
     Tokenizer tokenizer;
     Token current;
     Token previous;
+    bool had_error;
+    bool panic_mode;
 
-    Parser(const std::string &c) : 
-        tokenizer(Tokenizer(c)),
-        current("", Token_type::END_OF_FILE, 0),
-        previous("",Token_type::END_OF_FILE, 0) {}
+    /* helpers functions */
+    Parser(const std::string &c);
+    void advance();
+    void consume(Token_type, const std::string&);
+    void error_at_current(const std::string);
+    
+    /* functions used to compile */
+    void expression();
+    void grouping();
+    void parse_precedence(Precedence precedence);
+    
+    std::string compile();
 
-    void
-    advance()
-    {
-        current = previous;
-    }
+    /* all definitions needed for table with the compiling rules */
+    typedef void (Parser::*parseFn)();
 
-    std::string compile(void) {
-        return "";
-    }
+    struct ParseRule {
+        parseFn prefix;
+        parseFn infix;
+        Precedence precedence;
+    };
+
+    const static std::unordered_map<Token_type, Parser::ParseRule> rules;
 };
