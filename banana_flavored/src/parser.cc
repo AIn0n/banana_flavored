@@ -1,11 +1,13 @@
-#include <parser.hpp>
+#include "parser.hpp"
 
 const std::unordered_map<Token_type, Parser::ParseRule> Parser::rules = {
-    {Token_type::PAREN_LEFT, {&Parser::grouping, nullptr, Precedence::BASE}}
+    {Token_type::PAREN_LEFT,{&Parser::grouping, nullptr,        Precedence::BASE}},
+    {Token_type::NUMBER,    {&Parser::number,   nullptr,        Precedence::BASE}},
+    {Token_type::PLUS,      {nullptr,           &Parser::plus,  Precedence::TERM}}
 };
 
 Parser::Parser(const std::string &c) : 
-    tokenizer(Tokenizer(c)),
+    tokenizer(c),
     current("", Token_type::END_OF_FILE, 0),
     previous("",Token_type::END_OF_FILE, 0),
     had_error(false),
@@ -18,6 +20,7 @@ Parser::advance()
 
     for (;;) {
         current = tokenizer.next();
+        std::cout << current.lexeme << '\t' << (int)current.type << '\n';
         if (current.type != Token_type::ERROR)
             break;
         error_at_current(current.lexeme);
@@ -72,6 +75,20 @@ Parser::parse_precedence(Precedence precedence)
 }
 
 void
+Parser::number()
+{
+    int num = std::stoi(previous.lexeme);
+    /* put the value into the cell and move one cell up*/
+    result += std::string(num, '+') + '>';
+}
+
+void
+Parser::plus()
+{
+    result += "< [-<+>]";
+}
+
+void
 Parser::grouping()
 {
     expression();
@@ -89,5 +106,5 @@ Parser::compile(void)
 {
     advance();
     expression();
-    return "";
+    return result;
 }

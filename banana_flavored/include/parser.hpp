@@ -17,6 +17,7 @@ struct Parser {
     Token previous;
     bool had_error;
     bool panic_mode;
+    std::string result;
 
     /* helpers functions */
     Parser(const std::string &c);
@@ -27,6 +28,8 @@ struct Parser {
     /* functions used to compile */
     void expression();
     void grouping();
+    void number();
+    void plus();
     void parse_precedence(Precedence precedence);
     
     std::string compile();
