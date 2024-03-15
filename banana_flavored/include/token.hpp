@@ -29,5 +29,5 @@ struct Token {
     int line;
 
     Token(const std::string str, const Token_type type_, const int line_) 
-        : lexeme(str), type(type_), line(line_) {}
+        : type(type_), lexeme(str), line(line_) {}
 };

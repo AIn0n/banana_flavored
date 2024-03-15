@@ -27,5 +27,7 @@ target_link_libraries(tokenizer_tests_exec PRIVATE banana)
 target_link_libraries(parser_tests_exec PRIVATE banana)
 target_link_libraries(vm_tests_exec PRIVATE banana)
 
+target_compile_options(parser_tests_exec PRIVATE -Wall -g)
+
 # Enable testing
 enable_testing()
