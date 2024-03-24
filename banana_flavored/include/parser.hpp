@@ -23,7 +23,7 @@ struct Parser {
     Parser(const std::string &c);
     void advance();
     void consume(Token_type, const std::string&);
-    void error_at_current(const std::string);
+    void error_at_current(const std::string_view);
     
     /* functions used to compile */
     void expression();

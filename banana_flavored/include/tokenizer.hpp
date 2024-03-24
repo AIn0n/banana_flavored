@@ -6,35 +6,38 @@
 #include "token.hpp"
 
 struct Tokenizer {
-    std::string::iterator curr;
-    std::string::iterator start;
+    std::string_view code;
+    size_t start, curr;
     uint64_t line;
 
     Token make_token(const Token_type type) const
     {
-        return Token(std::string(start, curr), type, line);
+        return Token(code.substr(start, curr), type, line);
     }
 
-    Tokenizer(std::string str) : curr(str.begin()), start(str.begin()), line(0) {}
+    Tokenizer(std::string str) : code(str), start(0), curr(0), line(0) {}
 
     char
     advance(void)
     {
-        char tmp = *curr;
+        char tmp = code[curr];
         curr++;
         return tmp;
     }
 
-    char peek(void) const { return *curr; }
+    char peek(void) const {
+        std::cout << "current pos = " << curr << " current char " << code[curr] << '\n';
+        return code[curr];
+    }
 
-    bool is_at_end(void) const { return *curr == '\0'; }
+    bool is_at_end(void) const { return code[curr] == '\0'; }
 
     char
     peek_next(void)
     {
         if (is_at_end())
             return '\0';
-        return *(curr + 1);
+        return code[curr + 1];
     }
 
     void
@@ -55,6 +58,7 @@ struct Tokenizer {
                     while (!is_at_end() && peek() != '\n')
                         advance();
                 }
+                break;
             default:
                 return;
             }

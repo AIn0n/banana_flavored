@@ -11,7 +11,9 @@ Parser::Parser(const std::string &c) :
     current("", Token_type::END_OF_FILE, 0),
     previous("",Token_type::END_OF_FILE, 0),
     had_error(false),
-    panic_mode(false) {}
+    panic_mode(false) {
+        std::cout << c << '\n';
+    }
 
 void
 Parser::advance()
@@ -20,7 +22,7 @@ Parser::advance()
 
     for (;;) {
         current = tokenizer.next();
-        std::cout << current.lexeme << '\t' << (int)current.type << '\n';
+//        std::cout << current.lexeme << '\t' << (int)current.type << '\n';
         if (current.type != Token_type::ERROR)
             break;
         error_at_current(current.lexeme);
@@ -28,7 +30,7 @@ Parser::advance()
 }
 
 void
-Parser::error_at_current(const std::string msg)
+Parser::error_at_current(const std::string_view msg)
 {
     if (panic_mode)
         return;
@@ -77,7 +79,7 @@ Parser::parse_precedence(Precedence precedence)
 void
 Parser::number()
 {
-    int num = std::stoi(previous.lexeme);
+    int num = std::stoi(std::string(current.lexeme.begin(), current.lexeme.end()));
     /* put the value into the cell and move one cell up*/
     result += std::string(num, '+') + '>';
 }
