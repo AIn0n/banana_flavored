@@ -4,9 +4,10 @@
 #include "tokenizer.hpp"
 
 enum class Precedence {
-    BASE = 0, /* all */
-    TERM = 1, /* + - */
-    FACTOR = 2, /* * / */
+    NONE = 0, /* EOF */
+    BASE = 1, /* all */
+    TERM = 2, /* + - */
+    FACTOR = 3, /* * / */
 };
 
 

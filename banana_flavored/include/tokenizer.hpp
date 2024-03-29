@@ -6,8 +6,8 @@
 #include "token.hpp"
 
 struct Tokenizer {
-    std::string::iterator curr;
-    std::string::iterator start;
+    std::string::const_iterator curr;
+    std::string::const_iterator start;
     uint64_t line;
 
     Token make_token(const Token_type type) const
@@ -15,7 +15,7 @@ struct Tokenizer {
         return Token(std::string(start, curr), type, line);
     }
 
-    Tokenizer(std::string str) : curr(str.begin()), start(str.begin()), line(0) {}
+    Tokenizer(const std::string& str) : curr(str.begin()), start(str.begin()), line(0) {}
 
     char
     advance(void)

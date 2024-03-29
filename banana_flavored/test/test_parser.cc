@@ -8,7 +8,8 @@
 
 TEST_CASE("code generated for expression returns expression value", "[base]")
 {
-    auto instr  = Parser("90 + 27").compile();
+    std::string code = "90 + 27";
+    auto instr  = Parser(code).compile();
     auto vm     = Bf_vm();
     vm.execute(instr);
     REQUIRE(vm.mem[0] == 117);

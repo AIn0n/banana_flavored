@@ -3,7 +3,8 @@
 const std::unordered_map<Token_type, Parser::ParseRule> Parser::rules = {
     {Token_type::PAREN_LEFT,{&Parser::grouping, nullptr,        Precedence::BASE}},
     {Token_type::NUMBER,    {&Parser::number,   nullptr,        Precedence::BASE}},
-    {Token_type::PLUS,      {nullptr,           &Parser::plus,  Precedence::TERM}}
+    {Token_type::PLUS,      {nullptr,           &Parser::plus,  Precedence::TERM}},
+    {Token_type::END_OF_FILE,{nullptr,          nullptr,  Precedence::NONE}}
 };
 
 Parser::Parser(const std::string &c) : 
@@ -20,7 +21,6 @@ Parser::advance()
 
     for (;;) {
         current = tokenizer.next();
-        std::cout << current.lexeme << '\t' << (int)current.type << '\n';
         if (current.type != Token_type::ERROR)
             break;
         error_at_current(current.lexeme);
@@ -48,7 +48,7 @@ Parser::error_at_current(const std::string msg)
 void
 Parser::consume(const Token_type expected, const std::string& msg)
 {
-    if (current.type != expected)
+    if (current.type == expected)
         return advance();
     
     error_at_current(msg);
@@ -85,6 +85,8 @@ Parser::number()
 void
 Parser::plus()
 {
+    Parser::ParseRule rule = rules.at(previous.type);
+    parse_precedence(static_cast<Precedence>((int)rule.precedence + 1));
     result += "< [-<+>]";
 }
 
@@ -106,5 +108,6 @@ Parser::compile(void)
 {
     advance();
     expression();
+    consume(Token_type::END_OF_FILE, "Expected end of file\n");
     return result;
 }
