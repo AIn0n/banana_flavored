@@ -85,7 +85,8 @@ Compiler::number()
 void
 Compiler::binary()
 {
-    Compiler::ParseRule rule = rules.at(previous.type);
+    Token_type type = previous.type;
+    Compiler::ParseRule rule = rules.at(type);
     parse_precedence(static_cast<Precedence>((int)rule.precedence + 1));
     result += "< [-<+>]";
 }
