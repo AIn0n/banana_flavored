@@ -1,13 +1,13 @@
-#include "parser.hpp"
+#include "compiler.hpp"
 
-const std::unordered_map<Token_type, Parser::ParseRule> Parser::rules = {
-    {Token_type::PAREN_LEFT,{&Parser::grouping, nullptr,        Precedence::BASE}},
-    {Token_type::NUMBER,    {&Parser::number,   nullptr,        Precedence::BASE}},
-    {Token_type::PLUS,      {nullptr,           &Parser::plus,  Precedence::TERM}},
+const std::unordered_map<Token_type, Compiler::ParseRule> Compiler::rules = {
+    {Token_type::PAREN_LEFT,{&Compiler::grouping, nullptr,        Precedence::BASE}},
+    {Token_type::NUMBER,    {&Compiler::number,   nullptr,        Precedence::BASE}},
+    {Token_type::PLUS,      {nullptr,           &Compiler::binary,  Precedence::TERM}},
     {Token_type::END_OF_FILE,{nullptr,          nullptr,  Precedence::NONE}}
 };
 
-Parser::Parser(const std::string &c) : 
+Compiler::Compiler(const std::string &c) : 
     tokenizer(c),
     current("", Token_type::END_OF_FILE, 0),
     previous("",Token_type::END_OF_FILE, 0),
@@ -15,7 +15,7 @@ Parser::Parser(const std::string &c) :
     panic_mode(false) {}
 
 void
-Parser::advance()
+Compiler::advance()
 {
     previous = current;
 
@@ -28,7 +28,7 @@ Parser::advance()
 }
 
 void
-Parser::error_at_current(const std::string msg)
+Compiler::error_at_current(const std::string msg)
 {
     if (panic_mode)
         return;
@@ -46,7 +46,7 @@ Parser::error_at_current(const std::string msg)
 }
 
 void
-Parser::consume(const Token_type expected, const std::string& msg)
+Compiler::consume(const Token_type expected, const std::string& msg)
 {
     if (current.type == expected)
         return advance();
@@ -55,10 +55,10 @@ Parser::consume(const Token_type expected, const std::string& msg)
 }
 
 void
-Parser::parse_precedence(Precedence precedence)
+Compiler::parse_precedence(Precedence precedence)
 {
     advance();
-    Parser::parseFn prefix = rules.at(previous.type).prefix;
+    Compiler::parseFn prefix = rules.at(previous.type).prefix;
     if (prefix == nullptr) {
         error_at_current("expected expression");
         return;
@@ -68,14 +68,14 @@ Parser::parse_precedence(Precedence precedence)
 
     while (precedence <= rules.at(current.type).precedence) {
         advance();
-        Parser::parseFn infix = rules.at(previous.type).infix;
+        Compiler::parseFn infix = rules.at(previous.type).infix;
 
         (this->*infix)();
     }
 }
 
 void
-Parser::number()
+Compiler::number()
 {
     int num = std::stoi(previous.lexeme);
     /* put the value into the cell and move one cell up*/
@@ -83,28 +83,28 @@ Parser::number()
 }
 
 void
-Parser::plus()
+Compiler::binary()
 {
-    Parser::ParseRule rule = rules.at(previous.type);
+    Compiler::ParseRule rule = rules.at(previous.type);
     parse_precedence(static_cast<Precedence>((int)rule.precedence + 1));
     result += "< [-<+>]";
 }
 
 void
-Parser::grouping()
+Compiler::grouping()
 {
     expression();
     consume(Token_type::PAREN_RIGHT, "Expected ) after the expression");
 }
 
 void
-Parser::expression()
+Compiler::expression()
 {
     parse_precedence(Precedence::BASE);
 }
 
 std::string
-Parser::compile(void)
+Compiler::compile(void)
 {
     advance();
     expression();

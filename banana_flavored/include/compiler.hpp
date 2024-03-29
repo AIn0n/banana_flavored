@@ -12,7 +12,7 @@ enum class Precedence {
 
 
 
-struct Parser {
+struct Compiler {
     Tokenizer tokenizer;
     Token current;
     Token previous;
@@ -21,7 +21,7 @@ struct Parser {
     std::string result;
 
     /* helpers functions */
-    Parser(const std::string &c);
+    Compiler(const std::string &c);
     void advance();
     void consume(Token_type, const std::string&);
     void error_at_current(const std::string);
@@ -30,13 +30,13 @@ struct Parser {
     void expression();
     void grouping();
     void number();
-    void plus();
+    void binary();
     void parse_precedence(Precedence precedence);
     
     std::string compile();
 
     /* all definitions needed for table with the compiling rules */
-    typedef void (Parser::*parseFn)();
+    typedef void (Compiler::*parseFn)();
 
     struct ParseRule {
         parseFn prefix;
@@ -44,5 +44,5 @@ struct Parser {
         Precedence precedence;
     };
 
-    const static std::unordered_map<Token_type, Parser::ParseRule> rules;
+    const static std::unordered_map<Token_type, Compiler::ParseRule> rules;
 };
