@@ -1,3 +1,7 @@
+TODO {
+    it does not work if second argument is zero
+}
+
 +++++ >
 +++ >
 << go to the first arg and copy it at the top of the stack
@@ -6,8 +10,7 @@
 [
     - substract one from the second arg
     > go to the copy of the first arg
-    copy it and add value to result
-    [->+<<<+>>]
+    [->+<<<+>>] copy it and add value to result
 TODO {
     this process can be removed at last iteration
     but right now I don't have psycha to do that
