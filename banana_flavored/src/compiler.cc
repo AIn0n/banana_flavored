@@ -1,10 +1,11 @@
 #include "compiler.hpp"
 
 const std::unordered_map<Token_type, Compiler::ParseRule> Compiler::rules = {
-    {Token_type::PAREN_LEFT,{&Compiler::grouping, nullptr,        Precedence::BASE}},
-    {Token_type::NUMBER,    {&Compiler::number,   nullptr,        Precedence::BASE}},
-    {Token_type::PLUS,      {nullptr,           &Compiler::binary,  Precedence::TERM}},
-    {Token_type::END_OF_FILE,{nullptr,          nullptr,  Precedence::NONE}}
+    {Token_type::PAREN_LEFT,    {&Compiler::grouping,   nullptr,            Precedence::BASE}},
+    {Token_type::NUMBER,        {&Compiler::number,     nullptr,            Precedence::BASE}},
+    {Token_type::PLUS,          {nullptr,               &Compiler::binary,  Precedence::TERM}},
+    {Token_type::MINUS,         {nullptr,               &Compiler::binary,  Precedence::TERM}},
+    {Token_type::END_OF_FILE,   {nullptr,               nullptr,            Precedence::NONE}}
 };
 
 Compiler::Compiler(const std::string &c) : 
@@ -88,7 +89,15 @@ Compiler::binary()
     Token_type type = previous.type;
     Compiler::ParseRule rule = rules.at(type);
     parse_precedence(static_cast<Precedence>((int)rule.precedence + 1));
-    result += "< [-<+>]";
+    switch(type)
+    {
+    case Token_type::PLUS:
+        result += "< [-<+>]";
+        return;
+    case Token_type::MINUS:
+        result += "< [-<->]";
+        return;
+    }
 }
 
 void
