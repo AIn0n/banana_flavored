@@ -32,3 +32,12 @@ TEST_CASE("Code generated for multiply and minus expressions returns valid value
     vm.execute(instr);
     REQUIRE(vm.mem[0] == 6);
 }
+
+TEST_CASE("Code generated for plus and multiply expressions returns valid value", "[presedence]")
+{
+    std::string code = "2 + 3 * 3";
+    auto instr = Compiler(code).compile();
+    auto vm = Bf_vm();
+    vm.execute(instr);
+    REQUIRE(vm.mem[0] == 11);
+}
