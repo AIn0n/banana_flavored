@@ -13,3 +13,4 @@
  << return to the second arg
 ]
 >[-] go back to copy and clear cell
+< go back to the stack top
