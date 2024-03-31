@@ -20,7 +20,8 @@ enum class Token_type {
     ERROR       = 8,
     PAREN_LEFT  = 9,
     PAREN_RIGHT = 10,
-    MINUS       = 11
+    MINUS       = 11,
+    STAR        = 12
 };
 
 struct Token {

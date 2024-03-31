@@ -5,7 +5,8 @@ const std::unordered_map<Token_type, Compiler::ParseRule> Compiler::rules = {
     {Token_type::NUMBER,        {&Compiler::number,     nullptr,            Precedence::BASE}},
     {Token_type::PLUS,          {nullptr,               &Compiler::binary,  Precedence::TERM}},
     {Token_type::MINUS,         {nullptr,               &Compiler::binary,  Precedence::TERM}},
-    {Token_type::END_OF_FILE,   {nullptr,               nullptr,            Precedence::NONE}}
+    {Token_type::END_OF_FILE,   {nullptr,               nullptr,            Precedence::NONE}},
+    {Token_type::STAR,          {nullptr,               &Compiler::binary,  Precedence::FACTOR}}
 };
 
 Compiler::Compiler(const std::string &c) : 
@@ -97,6 +98,8 @@ Compiler::binary()
     case Token_type::MINUS:
         result += "< [-<->]";
         return;
+    case Token_type::STAR:
+        result += "<<[->>+<<]>[->[->+<<<+>>]>[-<+>]<<]>[-]<";
     }
 }
 

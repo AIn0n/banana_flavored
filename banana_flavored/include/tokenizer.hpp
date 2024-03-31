@@ -112,6 +112,8 @@ struct Tokenizer {
             return make_token(Token_type::PAREN_LEFT);
         case ')':
             return make_token(Token_type::PAREN_RIGHT);
+        case '*':
+            return make_token(Token_type::STAR);
         case '=':
             return make_token(match('=') ? Token_type::BANG_EQUAL : Token_type::EQUAL);
         }
