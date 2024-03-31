@@ -41,3 +41,12 @@ TEST_CASE("Code generated for plus and multiply expressions returns valid value"
     vm.execute(instr);
     REQUIRE(vm.mem[0] == 11);
 }
+
+TEST_CASE("code generater for unary operation properly set up precedence", "[precedence]")
+{
+    std::string code = "!1 + 20";
+    auto instr = Compiler(code).compile();
+    auto vm = Bf_vm();
+    vm.execute(instr);
+    REQUIRE(vm.mem[0] == 20);
+}
