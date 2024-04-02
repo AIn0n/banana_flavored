@@ -6,8 +6,17 @@ const std::unordered_map<Token_type, Compiler::ParseRule> Compiler::rules = {
     {Token_type::PLUS,          {nullptr,               &Compiler::binary,  Precedence::TERM}},
     {Token_type::MINUS,         {nullptr,               &Compiler::binary,  Precedence::TERM}},
     {Token_type::END_OF_FILE,   {nullptr,               nullptr,            Precedence::NONE}},
-    {Token_type::STAR,          {nullptr,               &Compiler::binary,  Precedence::FACTOR}}
+    {Token_type::STAR,          {nullptr,               &Compiler::binary,  Precedence::FACTOR}},
+    {Token_type::EXCLAMATION,   {&Compiler::negation,    nullptr,            Precedence::BASE}}
 };
+
+void 
+Compiler::negation()
+{
+    parse_precedence(Precedence::BASE);
+
+    result += "<[>>+<<-]>+[-<+>]>[<<->>>]<[<]>[-]<";
+}
 
 Compiler::Compiler(const std::string &c) : 
     tokenizer(c),
@@ -100,6 +109,10 @@ Compiler::binary()
         return;
     case Token_type::STAR:
         result += "<<[->>+<<]>[->[->+<<<+>>]>[-<+>]<<]>[-]<";
+        return;
+    default:
+        had_error = true;
+        return;
     }
 }
 

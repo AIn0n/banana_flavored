@@ -31,6 +31,7 @@ struct Compiler {
     void grouping();
     void number();
     void binary();
+    void negation();
     void parse_precedence(Precedence precedence);
     
     std::string compile();
