@@ -7,13 +7,13 @@ const std::unordered_map<Token_type, Compiler::ParseRule> Compiler::rules = {
     {Token_type::MINUS,         {nullptr,               &Compiler::binary,  Precedence::TERM}},
     {Token_type::END_OF_FILE,   {nullptr,               nullptr,            Precedence::NONE}},
     {Token_type::STAR,          {nullptr,               &Compiler::binary,  Precedence::FACTOR}},
-    {Token_type::EXCLAMATION,   {&Compiler::negation,    nullptr,            Precedence::BASE}}
+    {Token_type::EXCLAMATION,   {&Compiler::negation,   nullptr,            Precedence::PRIMARY}},
 };
 
 void 
 Compiler::negation()
 {
-    parse_precedence(Precedence::BASE);
+    parse_precedence(Precedence::PRIMARY);
 
     result += "<[>>+<<-]>+[-<+>]>[<<->>>]<[<]>[-]<";
 }

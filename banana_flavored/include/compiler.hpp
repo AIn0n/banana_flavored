@@ -8,6 +8,7 @@ enum class Precedence {
     BASE = 1, /* all */
     TERM = 2, /* + - */
     FACTOR = 3, /* * / */
+    PRIMARY = 4, /* unary operations etc */
 };
 
 
