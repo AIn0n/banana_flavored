@@ -139,6 +139,19 @@ Rationale:
 Interfaces (in class manner) written only for futher development right now are
 literraly bloat, you don't need them.
 
+## Naming
+
+### variable names convention
+
+#### Rule 1
+
+Stick to one naming scheme in whole codebase. e.g. always modifier is last 
+*username_length* or first *max_length_username*.
+
+Rationale:
+It looks like minor incosistency but in big enough methods this can really make
+code messy and smelly.
+
 ## Curing Java's degerenacy
 
 ### Rationale of the whole segment
