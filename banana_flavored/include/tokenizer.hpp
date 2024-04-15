@@ -129,6 +129,12 @@ struct Tokenizer {
             return make_token(match('=') ? Token_type::BANG_EQUAL : Token_type::EQUAL);
         case '!':
             return make_token(Token_type::EXCLAMATION);
+        case '{':
+            return make_token(Token_type::BRACE_LEFT);
+        case '}':
+            return make_token(Token_type::BRACE_RIGHT);
+        case '>':
+            return make_token(Token_type::MORE);
         }
 
         return Token("Unexpected token", Token_type::ERROR, line);
