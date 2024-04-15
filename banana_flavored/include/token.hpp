@@ -22,7 +22,11 @@ enum class Token_type {
     PAREN_RIGHT = 10,
     MINUS       = 11,
     STAR        = 12,
-    EXCLAMATION  = 13
+    EXCLAMATION = 13,
+    IF          = 14,
+    MORE        = 15,
+    BRACE_LEFT  = 16,
+    BRACE_RIGHT = 17
 };
 
 struct Token {

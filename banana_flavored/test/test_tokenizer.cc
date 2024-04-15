@@ -70,7 +70,7 @@ TEST_CASE("IF statement in the code is parsed as IF_KEYWORD", "[identifiers]")
         Token_type::NUMBER,
         Token_type::MORE,
         Token_type::NUMBER,
-        Token_type::PAREN_RIGHT
+        Token_type::PAREN_RIGHT,
         Token_type::BRACE_LEFT,
         Token_type::IDENTIFIER,
         Token_type::PAREN_LEFT,
