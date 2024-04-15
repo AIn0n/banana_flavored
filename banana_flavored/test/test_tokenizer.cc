@@ -58,3 +58,34 @@ TEST_CASE("parsing the function with the expression inside", "[base]")
 
     REQUIRE(res == expected);
 }
+
+TEST_CASE("IF statement in the code is parsed as IF_KEYWORD", "[identifiers]")
+{
+    auto code = "if (5 > 1) { func(); }";
+    auto tokenizer = Tokenizer(code);
+    std::vector<Token_type> res;
+    std::vector<Token_type> expected = {
+        Token_type::IF,
+        Token_type::PAREN_LEFT,
+        Token_type::NUMBER,
+        Token_type::MORE,
+        Token_type::NUMBER,
+        Token_type::PAREN_RIGHT
+        Token_type::BRACE_LEFT,
+        Token_type::IDENTIFIER,
+        Token_type::PAREN_LEFT,
+        Token_type::PAREN_RIGHT,
+        Token_type::SEMICOLON,
+        Token_type::BRACE_RIGHT,
+        Token_type::END_OF_FILE
+    };
+
+    Token_type type;
+    do {
+        Token token = tokenizer.next();
+        type = token.type;
+        res.push_back(type);
+    } while (type != Token_type::END_OF_FILE);
+
+    REQUIRE(res == expected);
+}
