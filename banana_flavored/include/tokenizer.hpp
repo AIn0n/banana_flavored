@@ -4,11 +4,15 @@
 #include <cctype>
 #include <iostream>
 #include "token.hpp"
+#include <map>
 
 struct Tokenizer {
     std::string::const_iterator curr;
     std::string::const_iterator start;
     uint64_t line;
+    const std::map<std::string, Token_type> keywords = {
+        {"if", Token_type::IF}
+    };
 
     Token make_token(const Token_type type) const
     {
@@ -73,7 +77,14 @@ struct Tokenizer {
     {
         while(isalpha(peek()) || isdigit(peek()))
             advance();
-        return make_token(Token_type::IDENTIFIER);
+
+        std::string str = std::string(start, curr);
+
+        if (keywords.find(str) == keywords.end())
+            return make_token(Token_type::IDENTIFIER);
+
+        const Token_type keyword_token = keywords.at(str);
+        return make_token(keyword_token);
     }
 
     Token number()
