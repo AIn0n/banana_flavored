@@ -20,9 +20,8 @@ TEST_CASE("tokenize expression", "[base]")
     };
 
     std::vector<Token_type> res;
-    for (const auto &it: tokenizer) {
+    for (const auto &it: tokenizer)
         res.push_back(it.type);
-    }
 
     REQUIRE(res == expected);
 }

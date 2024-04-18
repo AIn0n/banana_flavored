@@ -17,30 +17,32 @@ struct Tokenizer {
     struct Iterator {
         Tokenizer *tokenizer;
         Token curr;
+        uint8_t eof_counter;
 
-        Iterator(Tokenizer *_tokenizer) : 
+        Iterator(Tokenizer *_tokenizer, Token _curr) : 
             tokenizer(_tokenizer),
-            curr(tokenizer->next()) {}
+            curr(_curr),
+            eof_counter(0) {}
 
-        const Token& operator*() const
-        {
-            return curr;
-        }
+        const Token& operator*() const { return curr; }
 
         Iterator& operator++() {
+            if (curr.type == Token_type::END_OF_FILE)
+                eof_counter++;
             curr = tokenizer->next();
             return *this;
         }
 
-        bool operator!=(Iterator& other) const
-        {
-            return curr.type != Token_type::END_OF_FILE;
-        }
+        bool operator!=(Iterator& other) const { return eof_counter < 1; }
     };
 
-    Iterator begin() { return Iterator(this); }
+    Iterator begin()
+    {
+        Token curr = this->next();
+        return Iterator(this, curr);
+    }
 
-    Iterator end() { return Iterator(this); }
+    Iterator end() { return Iterator(nullptr, Token("", Token_type::END_OF_FILE, 0)); }
 
     Token make_token(const Token_type type) const
     {
