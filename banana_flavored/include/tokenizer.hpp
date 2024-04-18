@@ -14,6 +14,34 @@ struct Tokenizer {
         {"if", Token_type::IF}
     };
 
+    struct Iterator {
+        Tokenizer *tokenizer;
+        Token curr;
+
+        Iterator(Tokenizer *_tokenizer) : 
+            tokenizer(_tokenizer),
+            curr(tokenizer->next()) {}
+
+        const Token& operator*() const
+        {
+            return curr;
+        }
+
+        Iterator& operator++() {
+            curr = tokenizer->next();
+            return *this;
+        }
+
+        bool operator!=(Iterator& other) const {
+            return curr != other.curr;
+        }
+    };
+
+    Iterator begin()
+    {
+        return Iterator(this);
+    }
+
     Token make_token(const Token_type type) const
     {
         return Token(std::string(start, curr), type, line);

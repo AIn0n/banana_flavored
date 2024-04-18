@@ -37,4 +37,8 @@ struct Token {
 
     Token(const std::string str, const Token_type type_, const int line_) 
         : type(type_), lexeme(str), line(line_) {}
+
+    bool operator!=(const Token& other) const {
+        return type != other.type || lexeme != other.lexeme;
+    }
 };
