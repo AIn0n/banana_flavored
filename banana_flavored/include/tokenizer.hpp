@@ -32,15 +32,15 @@ struct Tokenizer {
             return *this;
         }
 
-        bool operator!=(Iterator& other) const {
-            return curr != other.curr;
+        bool operator!=(Iterator& other) const
+        {
+            return curr.type != Token_type::END_OF_FILE;
         }
     };
 
-    Iterator begin()
-    {
-        return Iterator(this);
-    }
+    Iterator begin() { return Iterator(this); }
+
+    Iterator end() { return Iterator(this); }
 
     Token make_token(const Token_type type) const
     {
