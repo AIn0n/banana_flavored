@@ -26,7 +26,8 @@ enum class Token_type {
     IF          = 14,
     MORE        = 15,
     BRACE_LEFT  = 16,
-    BRACE_RIGHT = 17
+    BRACE_RIGHT = 17,
+    STRING      = 18
 };
 
 struct Token {
