@@ -94,6 +94,20 @@ struct Tokenizer {
         return make_token(Token_type::NUMBER);
     }
 
+    Token make_string()
+    {
+        while (peek() != '"' && !is_at_end()) {
+            if (peek() == '\n')
+                line++;
+            advance();
+        }
+        if (is_at_end()) // TODO add real functionality here
+            return make_token(Token_type::STRING);
+
+        advance(); // consume closing bracket
+        return make_token(Token_type::STRING);
+    }
+
     Token next(void)
     {
         skip_whitespaces_and_comments();
@@ -135,6 +149,8 @@ struct Tokenizer {
             return make_token(Token_type::BRACE_RIGHT);
         case '>':
             return make_token(Token_type::MORE);
+        case '"':
+            return make_string();
         }
 
         return Token("Unexpected token", Token_type::ERROR, line);

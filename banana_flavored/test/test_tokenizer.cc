@@ -90,7 +90,7 @@ TEST_CASE("IF statement in the code is parsed as IF_KEYWORD", "[identifiers]")
     REQUIRE(res == expected);
 }
 
-TEST_CASE("string should be tokenized properly and string inside token should be equal to value in brackets", "[strings]")
+TEST_CASE("string should be tokenized properly", "[strings]")
 {
     std::string _string = "Hello world!";
     auto code = "a := \"" + _string + "\";";
@@ -100,7 +100,8 @@ TEST_CASE("string should be tokenized properly and string inside token should be
         Token_type::COLON,
         Token_type::EQUAL,
         Token_type::STRING,
-        Token_type::SEMICOLON
+        Token_type::SEMICOLON,
+        Token_type::END_OF_FILE
     };
 
     std::vector<Token_type> res;
