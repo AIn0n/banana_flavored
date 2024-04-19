@@ -122,7 +122,7 @@ TEST_CASE("Tokenizing boolean true and false returns valid tokens", "[bools]")
 
 TEST_CASE("Tokenizing functions returns valid tokens", "[functions]")
 {
-    auto code = "fn name(arg: int) { return 1; }";
+    std::string code = "fn name(arg: int) { return 1; }";
     auto tokenizer = Tokenizer(code);
     std::vector<Token_type> expected = {
         Token_type::FUNCTION,
@@ -136,7 +136,8 @@ TEST_CASE("Tokenizing functions returns valid tokens", "[functions]")
         Token_type::RETURN,
         Token_type::NUMBER,
         Token_type::SEMICOLON,
-        Token_type::BRACE_RIGHT
+        Token_type::BRACE_RIGHT,
+        Token_type::END_OF_FILE
     };
 
     std::vector<Token_type> res;
