@@ -119,3 +119,29 @@ TEST_CASE("Tokenizing boolean true and false returns valid tokens", "[bools]")
     
     REQUIRE(res == expected);
 }
+
+TEST_CASE("Tokenizing functions returns valid tokens", "[functions]")
+{
+    auto code = "fn name(arg: int) { return 1; }";
+    auto tokenizer = Tokenizer(code);
+    std::vector<Token_type> expected = {
+        Token_type::FUNCTION,
+        Token_type::IDENTIFIER,
+        Token_type::PAREN_LEFT,
+        Token_type::IDENTIFIER,
+        Token_type::COLON,
+        Token_type::IDENTIFIER,
+        Token_type::PAREN_RIGHT,
+        Token_type::BRACE_LEFT,
+        Token_type::RETURN,
+        Token_type::NUMBER,
+        Token_type::SEMICOLON,
+        Token_type::BRACE_RIGHT
+    };
+
+    std::vector<Token_type> res;
+    for (const auto &token : tokenizer)
+        res.push_back(token.type);
+
+    REQUIRE(res == expected);
+}

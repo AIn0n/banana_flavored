@@ -30,7 +30,9 @@ enum class Token_type {
     STRING      = 18,
     _TRUE       = 19,
     _FALSE      = 20,
-    AND         = 21
+    AND         = 21,
+    FUNCTION    = 22,
+    RETURN      = 23,
 };
 
 struct Token {
