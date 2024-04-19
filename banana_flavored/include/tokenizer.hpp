@@ -11,7 +11,10 @@ struct Tokenizer {
     std::string::const_iterator start;
     uint64_t line;
     const std::map<std::string, Token_type> keywords = {
-        {"if", Token_type::IF}
+        {"if",      Token_type::IF},
+        {"true",    Token_type::_TRUE},
+        {"false",   Token_type::_FALSE},
+        {"and",     Token_type::AND}
     };
 
     /*
