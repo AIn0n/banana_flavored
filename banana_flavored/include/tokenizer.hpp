@@ -14,12 +14,17 @@ struct Tokenizer {
         {"if", Token_type::IF}
     };
 
+    /*
+    * function implementations can be 
+    * found in src/tokenizer/tokenizer_iterator.cc
+    */
     struct Iterator {
         Tokenizer   *tokenizer;
         Token       curr;
         uint8_t     eof_counter;
 
         Iterator(Tokenizer *_tokenizer, Token _curr);
+
         bool        operator!=(Iterator& other) const;
         const       Token& operator*()          const;
         Iterator&   operator++();
@@ -41,7 +46,9 @@ struct Tokenizer {
     bool match      (const char c);
     void skip_whitespaces_and_comments();
 
-    // functions generating different tokens
+    /*  functions generating different tokens 
+    *   implementation in src/tokenizer/tokenizer_token_specific_funcs.cc
+    */
     Token make_string   ();
     Token identifier    ();
     Token number        ();
