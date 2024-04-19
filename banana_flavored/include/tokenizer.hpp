@@ -25,19 +25,25 @@ struct Tokenizer {
         Iterator&   operator++();
     };
 
+    // constructors and iterator constructors
+    Tokenizer(const std::string& str);
     Iterator begin();
     Iterator end();
 
+    // helpers to construct different types of token
     Token make_token(const Token_type type) const;
-    Tokenizer(const std::string& str);
-    char advance();
-    char peek() const;
-    bool is_at_end() const;
-    char peek_next();
+
+    // moving thru and checking characters functions
+    char advance    ();
+    char peek       () const;
+    bool is_at_end  () const;
+    char peek_next  ();
+    bool match      (const char c);
     void skip_whitespaces_and_comments();
-    bool match(const char c);
-    Token identifier();
-    Token number();
-    Token make_string();
-    Token next();
+
+    // functions generating different tokens
+    Token make_string   ();
+    Token identifier    ();
+    Token number        ();
+    Token next          ();
 };
