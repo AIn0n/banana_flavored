@@ -97,3 +97,25 @@ TEST_CASE("string should be tokenized properly", "[strings]")
 
     REQUIRE(res == expected);
 }
+
+TEST_CASE("Tokenizing boolean true and false returns valid tokens", "[bools]")
+{
+    auto code = "a := true and false;";
+    auto tokenizer = Tokenizer(code);
+    std::vector<Token_type> expected = {
+        Token_type::IDENTIFIER,
+        Token_type::COLON,
+        Token_type::EQUAL,
+        Token_type::_TRUE,
+        Token_type::AND,
+        Token_type::_FALSE,
+        Token_type::SEMICOLON,
+        Token_type::END_OF_FILE
+    };
+
+    std::vector<Token_type> res;
+    for (const auto &token : tokenizer)
+        res.push_back(token.type);
+    
+    REQUIRE(res == expected);
+}
