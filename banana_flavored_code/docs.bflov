@@ -1,0 +1,27 @@
+use { out } from io
+
+fn print_hello(repetition: SupportsInt) None {
+\*
+-* docs *-
+
+    ## Brief
+
+    Function to print hello world many times
+
+    ## Parameters
+    | name          | type          | description                               |
+    |---------------|---------------|-------------------------------------------|
+    | repetition    | SupportsInt   | how many times hello world is repeated    |
+
+    ## Returns
+
+    None
+
+    ## Description
+
+    This is protype of documentation system similar to markdown and orgmode.
+*/
+    1.to(repetition).do(() {
+        out.append("hello world!\n")
+    })
+}
