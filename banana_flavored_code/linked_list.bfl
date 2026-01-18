@@ -1,0 +1,51 @@
+use { Iterable, Optional } from typing;
+use { Pool } from memory;
+
+
+// some way of auto init?
+class LinkedListNode<T> {
+    @elem: T;
+    @next: Optional<&LinkedListNode<T>>;
+
+    new := (@, el: T) {
+        @elem = el;
+        @next = Optional<&LinkedListNode<T>>.invalid();
+    }
+}
+
+class LinkedList<T> : Iterable {
+    @head: LinkedListNode<T>;
+
+    new := (init_el: T) {
+        @head = LinkedListNode<T>(init_el);
+    }
+
+    tail := (@) -> LinkedListNode<T> {
+        tmp: Optional<&LinkedListNode<T>> = @head;
+        while (tmp.next.is_valid?()) {
+            tmp = tmp.next;
+        }
+        return tmp.value;
+    }
+
+    append := (@, alloc: Pool<LinkedListNode<T>>, el: T) -> bool {
+        new_elem_node : Optional<LinkedListNode<T>> = alloc(el);
+        if (new_elem_node.is_invalid?()) {
+            return false;
+        }
+        tail := @.tail();
+        tail.next = new_elem_node;
+        return true;
+    }
+
+    find_ref := (@, n: int) -> Optional<&LinkedListNode<T>> {
+        tmp : &LinkedListNode<T> = @head;
+        for (i := 0 ; i <= n ; i = i + 1) {
+            if (i == n) {
+                return Optional(tmp);
+            }
+            tmp.next;
+        }
+        return Optional<&LinkedListNode<T>>.invalid();
+    }
+}
