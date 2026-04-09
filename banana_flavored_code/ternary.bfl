@@ -14,5 +14,5 @@ fn main() -> void
 fn main() -> void
 {
     b := function();
-    a := if b < 10 { 5; } else { 10; };
+    a := if b < 10 { 5 } else { 10 };
 }

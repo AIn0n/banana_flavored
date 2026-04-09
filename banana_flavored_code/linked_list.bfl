@@ -1,35 +1,35 @@
-use { Iterable, Optional } from typing;
+use { Iterable, Maybe, invalid } from typing;
 use { Pool } from memory;
 
 
 // some way of auto init?
-class LinkedListNode[T] {
-    @elem: T;
-    @next: Optional[&LinkedListNode[T]];
+struct LinkedListNode[T] {
+    elem: T;
+    next: Maybe[&LinkedListNode[T]];
 
-    new := (@, el: T) {
-        @elem = el;
-        @next = Optional[&LinkedListNode[T]].invalid();
+    new(@, el: T) {
+        @.elem = el;
+        @.next = invalid[&LinkedListNode[T]]();
     }
 }
 
-class LinkedList[T] : Iterable {
-    @head: LinkedListNode[T];
+struct LinkedList[T] : Iterable {
+    head: Maybe[LinkedListNode[T]];
 
-    new := (init_el: T) {
-        @head = LinkedListNode[T](init_el);
+    new(@) {
+        @.head = invalid[LinkedListNode[T]]();
     }
 
-    tail := (@) -> LinkedListNode[T] {
-        tmp: Optional[&LinkedListNode[T]] = @head;
+    tail(@) -> Maybe[&LinkedListNode[T]] {
+        tmp: Maybe[&LinkedListNode[T]] = @head;
         while (tmp.next.is_valid?()) {
             tmp = tmp.next;
         }
-        return tmp.value;
+        return tmp;
     }
 
-    append := (@, alloc: Pool[LinkedListNode[T]], el: T) -> bool {
-        new_elem_node : Optional[LinkedListNode[T]] = alloc(el);
+    append(@, alloc: Pool[LinkedListNode[T]], el: T) -> bool {
+        new_elem_node : Maybe[LinkedListNode[T]] = alloc(el);
         if (new_elem_node.is_invalid?()) {
             return false;
         }
@@ -38,14 +38,17 @@ class LinkedList[T] : Iterable {
         return true;
     }
 
-    find_ref := (@, n: int) -> Optional[&LinkedListNode[T]] {
-        tmp : &LinkedListNode[T] = @head;
+    find_ref(@, n: int) -> Maybe[&T] {
+        tmp : &LinkedListNode[T] = @.head;
         for (i := 0 ; i i <= n ; i = i + 1) {
             if (i == n) {
-                return Optional(tmp);
+                return Maybe(tmp);
             }
             tmp.next;
         }
-        return Optional[&LinkedListNode[T]].invalid();
+        return inavlid[&LinkedListNode[T]]();
     }
+}
+
+main() {
 }
