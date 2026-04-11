@@ -113,11 +113,11 @@ expression  : ID COLON assign_type ASSIGN expression
             | func_exec_exp
             | anon_func_declaration
             | STRING
+            | if_stmt
             ;
-/*
+
 if_stmt :   IF LPAREN expression RPAREN expression if_stmt_aux ;
 
 if_stmt_aux : ELSE expression
             |
             ;
-*/
