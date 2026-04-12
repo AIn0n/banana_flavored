@@ -114,6 +114,14 @@ expression  : ID COLON assign_type ASSIGN expression
             | anon_func_declaration
             | STRING
             | if_stmt
+            | lvalue ASSIGN expression
+            ;
+
+lvalue : ID lvalue_aux ;
+
+lvalue_aux  : DOT ID lvalue_aux
+            | L_SQR_BRCK expression R_SQR_BRCK lvalue_aux
+            |
             ;
 
 if_stmt :   IF LPAREN expression RPAREN expression if_stmt_aux ;
