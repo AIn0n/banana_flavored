@@ -18,7 +18,6 @@ int yylex(void); /* function prototype */
   LPAREN RPAREN
   L_SQR_BRCK R_SQR_BRCK
   L_MO_BRCK R_MO_BRCK DOT
-  PLUS MINUS TIMES DIVIDE EQ NEQ LT LE GT GE
   AND OR ASSIGN
   ARRAY IF ELSE WHILE FOR RETURN
   BREAK STRUCT
@@ -26,6 +25,11 @@ int yylex(void); /* function prototype */
 
 %start program
 
+%right ASSIGN
+%nonassoc EQ NEQ LT GT LE GE
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left UMINUS
 %%
 
 program : declaration_list ;
@@ -88,6 +92,7 @@ assign_type :   type_id
             |
             ;
 
+
 /*
 anonymous function declaration in the manner of given syntax:
 ```
@@ -95,7 +100,7 @@ func := add(a: int, b: int) -> int { return a + b };
 ```
 */
 
-anon_func_declaration : ID LPAREN type_fields RPAREN ARROW type_id expression ;
+anon_func_declaration : ID LPAREN type_fields RPAREN ARROW type_id bracket_expression ;
 
 func_exec_exp : ID LPAREN func_arguments RPAREN ;
 
@@ -107,14 +112,28 @@ func_arguments_aux  :   COMMA expression func_arguments_aux
                     |
                     ;
 
+ops :   expression PLUS expression
+    |   expression MINUS expression
+    |   expression TIMES expression
+    |   expression DIVIDE expression
+    |   expression EQ expression
+    |   expression NEQ expression
+    |   expression LT expression
+    |   expression LE expression
+    |   expression GT expression
+    |   expression GE expression
+    |   MINUS expression    %prec UMINUS
+    ;
 
 expression  : ID COLON assign_type ASSIGN expression
             | bracket_expression
             | func_exec_exp
             | anon_func_declaration
             | STRING
+            | INT
             | if_stmt
             | lvalue ASSIGN expression
+            | ops
             ;
 
 lvalue : ID lvalue_aux ;
