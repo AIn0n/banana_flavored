@@ -22,11 +22,16 @@ INSTRUCTION_TO_C: dict[str, str] = {
 def transpile_to_c(input_path: str, output_path: str | None) -> None:
     c_code = (
         "#include <stdio.h>\n"
+        "#include <stdlib.h>\n"
         "#include <stdint.h>\n\n"
-        "int main(void)\n"
+        "int main(int argc, char* argv[])\n"
         "{\n"
         "  uint32_t t[2048] = {0};\n"
-        "  uint32_t p = 0;\n"
+        "  uint32_t p = argc;\n"
+        "  // fill the stack with initial values - great for testing\n"
+        "  for (int i = 0; i < argc; ++i) {\n"
+        "    t[i] = atoi(argv[i]);\n"
+        "  }\n"
     )
     with open(input_path, mode="r", encoding="utf-8") as input_file:
         indent = 1
@@ -38,13 +43,17 @@ def transpile_to_c(input_path: str, output_path: str | None) -> None:
                 c_code += INSTRUCTION_TO_C[char]
             if char == "[":
                 indent += 1
-        c_code += "  return 0;\n"
-        c_code += "}\n"
+    c_code += (
+        "  // print elemented pointed out by pointer as integer - benchmarking focused\n"
+        r'  printf("%i\n", t[p]);'
+        "\n  return 0;\n"
+        "}\n"
+    )
 
     if output_path is None:
         output_path = "bf.c"
 
-    with open(output_path, mode="a", encoding="utf-8") as output_file:
+    with open(output_path, mode="w", encoding="utf-8") as output_file:
         print(c_code, file=output_file)
 
 

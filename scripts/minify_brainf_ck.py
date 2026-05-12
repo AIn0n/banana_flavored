@@ -11,7 +11,7 @@ def minify(in_dir: str) -> None:
     out_dir = "/".join(base + ["minified_" + filename])
 
     with open(out_dir, "wt") as f:
-        print("generated with minify_brainf_ck py", file=f)
+        print("minified using minify_brainf_ck py", file=f)
         print(minified, file=f)
 
 
