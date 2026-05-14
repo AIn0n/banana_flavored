@@ -32,12 +32,12 @@ program : declaration_list ;
 
 declaration_list : declaration declaration_list_aux ;
 
-declaration_list_aux    :   declaration
-                        |
-                        ;
+declaration_list_aux  : declaration
+                      |
+                      ;
 
 declaration : function_declaration
-            |   struct_declaration
+            | struct_declaration
             ;
 
 function_declaration : ID LPAREN type_fields RPAREN ARROW type_id bracket_expression ;
@@ -115,6 +115,7 @@ expression  : ID COLON assign_type ASSIGN expression
             | STRING
             | if_stmt
             | lvalue ASSIGN expression
+            | RETURN expression
             ;
 
 lvalue : ID lvalue_aux ;

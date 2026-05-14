@@ -6,7 +6,7 @@ import subprocess
 import itertools
 import time
 
-NUM_CAP_MAX = 4096
+NUM_CAP_MAX = 8192
 NUM_CAP_MIN = 1
 
 
@@ -47,7 +47,7 @@ def benchmark_c_converted_multiplication(
     if csv_output_path is None:
         csv_output_path = "out.csv"
 
-    df.to_csv(csv_output_path)
+    df.to_csv(csv_output_path, index=False)
 
 
 if __name__ == "__main__":
