@@ -32,25 +32,25 @@ program : declaration_list ;
 
 declaration_list : declaration declaration_list_aux ;
 
-declaration_list_aux  : declaration
-                      |
-                      ;
+declaration_list_aux  
+  : declaration
+  |
+  ;
 
-declaration : function_declaration
-            | struct_declaration
-            ;
+declaration 
+  : function_declaration
+  | struct_declaration
+  ;
 
 function_declaration : ID LPAREN type_fields RPAREN ARROW type_id bracket_expression ;
 
-type_fields : first_type_field type_fields_aux ;
+type_fields : type_field type_fields_aux ;
 
-first_type_field: ID COLON type_id
-                | ID
-                ;
 
-type_fields_aux : COMMA type_field type_fields_aux
-                |
-                ;
+type_fields_aux 
+  : COMMA type_field type_fields_aux
+  |
+  ;
 
 type_field  : ID COLON type_id ;
 
@@ -114,16 +114,21 @@ expression  : ID COLON assign_type ASSIGN expression
             | anon_func_declaration
             | STRING
             | if_stmt
-            | lvalue ASSIGN expression
+            | value ASSIGN expression
             | RETURN expression
+            | value
             ;
 
-lvalue : ID lvalue_aux ;
+value 
+  : ID value_aux ;
 
-lvalue_aux  : DOT ID lvalue_aux
-            | L_SQR_BRCK expression R_SQR_BRCK lvalue_aux
-            |
-            ;
+value_aux  
+  : DOT ID value_aux
+  | L_SQR_BRCK expression R_SQR_BRCK value_aux
+  |
+  ;
+
+
 
 if_stmt :   IF LPAREN expression RPAREN expression if_stmt_aux ;
 
